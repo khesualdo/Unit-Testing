@@ -28,14 +28,14 @@ class Utility
 // This test will fail in strict mode, because we did not set up expectations for all members of the `moq`
 // Specifically, we did not setup expectation for `DeleteGuid()`
 [Test]
-moq = new Mock<>(IGuidUtility);
+moq = new Mock<IGuidUtility>(MockBehavior.Strict);
 utility = new Utility(moq.Object);
 moq.Setup(x => x.CreateGuid()).Returns(...);
 
 // This test will pass in loose mode
 // This test will pass in strict mode, because we setup expectations for all members of the `moq`
 [Test]
-moq = new Mock<>(IGuidUtility);
+moq = new Mock<IGuidUtility>(MockBehavior.Strict);
 utility = new Utility(moq.Object);
 moq.Setup(x => x.CreateGuid()).Returns(...);
 moq.Setup(x => x.DeleteGuid()).Returns(...);
