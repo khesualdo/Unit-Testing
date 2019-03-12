@@ -4,7 +4,7 @@
 
 Strict mocking means that we must set up expectations (`Verify`, `Returns`) on all members of a mock object otherwise an exception is thrown. Loose mocking on the other hand does not require explicit expectations on all class members, instead default values are returned when no expectation is explicitly declared.
 
-Default behaviour in Moq is loose coupling.
+Default behaviour in Moq is loose mocking.
 
 ```C#
 interface IGuidUtility
@@ -117,12 +117,16 @@ moq.Object.CompareGuids(first, first, second);
 `Verify` is used for verifying expected behaviour.
 ```C#
 var mockFileWriter = new Mock<IFileWriter>();
+useMockFileWriter(mockFileWriter.Object);
+
+// Verify that mockFileWriter was called exactly 1 time in `useMockFileWriter()`
 mockFileWriter.Verify(fw => fw.WriteLine("1001,10.53"), Times.Exactly(1));
 ```
 
 `VerifyAll` will verify that all `Setup` calls were called.
 ```C#
 var mockFileWriter = new Mock<IFileWriter>();
+mockFileWriter.Setup(fw => fw.CopyLine("1001,10.53")).Returns("1001,10.53");
 mockFileWriter.Setup(fw => fw.WriteLine("1001,10.53")).AtMostOnce();
 mockFileWriter.Setup(fw => fw.ReadLine()).AtMostOnce();
 mockFileWriter.VerifyAll();
