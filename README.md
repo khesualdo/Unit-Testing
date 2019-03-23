@@ -119,22 +119,23 @@ moq.Object.CompareGuids(first, first, second);
 var mockFileWriter = new Mock<IFileWriter>();
 useMockFileWriter(mockFileWriter.Object);
 
-// Verify that mockFileWriter was called exactly 1 time in `useMockFileWriter()`
+// Verify that `WriteLine` was called exactly 1 time on `mockFileWriter` in `useMockFileWriter()`
 mockFileWriter.Verify(fw => fw.WriteLine("1001,10.53"), Times.Exactly(1));
 ```
 
-`VerifyAll` will verify that all `Setup` calls were called.
+`VerifyAll` will verify that all `Setup` calls were called (eg. in this case will check that `CopyLine` was called on `mockFileWriter` in `useMockFileWriter()`) as well as verify expected behaviour.
 ```C#
 var mockFileWriter = new Mock<IFileWriter>();
 mockFileWriter.Setup(fw => fw.CopyLine("1001,10.53")).Returns("1001,10.53");
 mockFileWriter.Setup(fw => fw.WriteLine("1001,10.53")).AtMostOnce();
 mockFileWriter.Setup(fw => fw.ReadLine()).AtMostOnce();
+useMockFileWriter(mockFileWriter.Object);
 mockFileWriter.VerifyAll();
 ```
 
 `Assert` is used for verifying expected result.
 ```C#
-mockFileReader.Setup(fr => fr.ReadLine()).Returns("1002,10.34");
-orderReader = new OrderReader(mockFileReader.Object);
-Assert.Equal(1002, order.OrderId);
+var actual = DoSomething();
+var expected = 1002;
+Assert.AreEqual(expected, actual);
 ```
