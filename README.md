@@ -139,3 +139,45 @@ var actual = DoSomething();
 var expected = 1002;
 Assert.AreEqual(expected, actual);
 ```
+
+### Exceptions
+
+Assert on exception message.
+```C#
+try
+{
+  somethingThatFillThrowAnException();
+  Assert.Fail();
+}
+catch (ArgumentException e)
+{
+  Assert.AreEqual("Erro message", e.Message);
+}
+catch (Exception)
+{
+  Assert.Fail();
+}
+```
+
+Assert on exception type.
+```C#
+try
+{
+  somethingThatFillThrowAnException();
+  Assert.Fail();
+}
+catch (Exception e)
+{
+  Assert.IsTrue(e is ArgumentException);
+}
+```
+
+Assert on exception type.
+```C#
+[TestMethod]
+[ExpectedException(typeof(ArgumentNullException))]
+public void MethodTest()
+{
+  somethingThatFillThrowAnException();
+}
+```
