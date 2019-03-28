@@ -202,6 +202,7 @@ mockMessageHandler.Protected()
 
 HttpClient httpClient = new HttpClient(mockMessageHandler.Object);
 
+// One thing to note is that response.IsSuccessStatusCode will be true only if 200 >=response.StatusCode <= 299
 HttpResponseMessage response = await httpClient.PostAsync("Any valid endpoint", null);
 string content = await response.Content.ReadAsStringAsync(); // Content is stored in ASCII
 HttpStatusCode statusCode = response.StatusCode;
