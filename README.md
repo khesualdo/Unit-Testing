@@ -181,3 +181,28 @@ public void MethodTest()
   somethingThatFillThrowAnException();
 }
 ```
+
+### `Protected` Methods
+
+> `Protected()` is found in the `Moq.Protected` namespace. Also `ItExpr` is the same as `It`, but is used for mocking protected methods.
+
+This example mocks `HttpClient`. The trick to mocking `HttpClient`, is to not mock it, but to mock `HttpMessageHandler` instead. `HttpClient` acts as a manager / wrapper for `HttpMessageHandler`, so calls to `DeleteAsync()`, `GetAsync()`, `PostAsync()`, `PutAsync()`, and `SendAsync()`, will all return the `HttpResponseMessage` you setup on the `SendAsync()` method of the `HttpMessageHandler` class.
+```C#
+Mock<HttpMessageHandler> mockMessageHandler = new Mock<HttpMessageHandler>();
+
+mockMessageHandler.Protected()
+    .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+    .ReturnsAsync(
+        new HttpResponseMessage
+        {
+            StatusCode = HttpStatusCode.OK,
+            Content = new StringContent("Whatever content")
+        }
+    );
+
+HttpClient httpClient = new HttpClient(mockMessageHandler.Object);
+
+HttpResponseMessage response = await httpClient.PostAsync("Any valid endpoint", null);
+string content = await response.Content.ReadAsStringAsync(); // Content is stored in ASCII
+HttpStatusCode statusCode = response.StatusCode;
+```
