@@ -229,7 +229,7 @@ public MyClass{
   public void someFunFunction(){ ... }
 }
 
-// Change acceess to public / protected virtual
+// Change access to public / protected virtual
 public MyClass{
   public void someFunction(){
     someOtherFunction();
