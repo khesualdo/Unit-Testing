@@ -7,12 +7,13 @@ Strict mocking means that we must set up expectations (`Verify`, `Returns`) on a
 Default behaviour in Moq is loose mocking.
 
 ```C#
-interface IGuidUtility
+interface IGuidUtility{
 
   CreateGuid();
   DeleteGuid();
+}
   
-class Utility
+class Utility{
 
   IGuidUtility _guidUtility;
   
@@ -23,6 +24,7 @@ class Utility
     
     _guidUtility.DeleteGuid();
   }
+}
 
 // This test will pass in loose mode
 // This test will fail in strict mode, because we did not set up expectations for all members of the `moq`
@@ -184,7 +186,7 @@ public void MethodTest()
 
 ### `Protected` Methods
 
-> `Protected()` is found in the `Moq.Protected` namespace. Also `ItExpr` is the same as `It`, but is used for mocking protected methods.
+> `Protected()` is found in the `Moq.Protected` namespace. Also `ItExpr` is the same as `It`, but is used when mocking protected methods.
 
 This example mocks `HttpClient`. The trick to mocking `HttpClient`, is to not mock it, but to mock `HttpMessageHandler` instead. `HttpClient` acts as a manager / wrapper for `HttpMessageHandler`, so calls to `DeleteAsync()`, `GetAsync()`, `PostAsync()`, `PutAsync()`, and `SendAsync()`, will all return the `HttpResponseMessage` you setup on the `SendAsync()` method of the `HttpMessageHandler` class.
 ```C#
