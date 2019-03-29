@@ -184,7 +184,7 @@ public void MethodTest()
 
 ### `Protected` Methods
 
-> `Protected()` is found in the `Moq.Protected` namespace. Also `ItExpr` is the same as `It`, but is used for mocking protected methods.
+> `Protected()` is found in the `Moq.Protected` namespace. Also `ItExpr` is the same as `It`, but is used when mocking protected methods.
 
 This example mocks `HttpClient`. The trick to mocking `HttpClient`, is to not mock it, but to mock `HttpMessageHandler` instead. `HttpClient` acts as a manager / wrapper for `HttpMessageHandler`, so calls to `DeleteAsync()`, `GetAsync()`, `PostAsync()`, `PutAsync()`, and `SendAsync()`, will all return the `HttpResponseMessage` you setup on the `SendAsync()` method of the `HttpMessageHandler` class.
 ```C#
