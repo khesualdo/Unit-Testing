@@ -216,6 +216,8 @@ Used when mocking the behaviour of a member (method or property) from the same t
 
 Partially mocking a class ignores parts of its behavior, this means the class is doing more than one thing. This violates the Single Responsibility Principle, and that is a code smell.
 
+> Important to note that `mock.Object.someFunction();` will take us into the implementation of the method, because we are mocking a class. When mocking an interface default values will return.
+
 ```C#
 public MyClass{
   public void someFunction(){
