@@ -7,12 +7,13 @@ Strict mocking means that we must set up expectations (`Verify`, `Returns`) on a
 Default behaviour in Moq is loose mocking.
 
 ```C#
-interface IGuidUtility
+interface IGuidUtility{
 
   CreateGuid();
   DeleteGuid();
+}
   
-class Utility
+class Utility{
 
   IGuidUtility _guidUtility;
   
@@ -23,6 +24,7 @@ class Utility
     
     _guidUtility.DeleteGuid();
   }
+}
 
 // This test will pass in loose mode
 // This test will fail in strict mode, because we did not set up expectations for all members of the `moq`
